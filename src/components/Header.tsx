@@ -1,6 +1,18 @@
 import logo from "../assets/images/logo.png";
 import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { signOut } from "firebase/auth";
+import { setUser } from "../redux/features/user/userSlice";
+import { auth } from "../lib/firebase";
 export default function Header() {
+  const { user } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+  const handleLogout = () => {
+    signOut(auth).then(() => {
+      dispatch(setUser(null));
+    });
+  };
+
   return (
     <nav className="w-full h-16 z-10 bg-violet-500">
       <div className="h-full w-full container mx-auto">
@@ -16,12 +28,21 @@ export default function Header() {
               <li className="text-white">
                 <Link to="/all-books">All Books</Link>
               </li>
-              <li className="text-white">
-                <Link to="/sign-in">SignIn</Link>
-              </li>
-              <li className="text-white">
-                <Link to="/sign-up">SignUp</Link>
-              </li>
+              {!user.email && (
+                <div className="flex items-center gap-5">
+                  <li className="text-white">
+                    <Link to="/sign-in">SignIn</Link>
+                  </li>
+                  <li className="text-white">
+                    <Link to="/sign-up">SignUp</Link>
+                  </li>
+                </div>
+              )}
+              {user.email && (
+                <li onClick={handleLogout} className="text-white p-2 cursor-pointer">
+                  LogOut
+                </li>
+              )}
             </ul>
           </div>
         </div>

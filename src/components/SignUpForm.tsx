@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 "use client";
 import { useForm } from "react-hook-form";
+import { createUser } from "../redux/features/user/userSlice";
+import { useAppDispatch } from "../redux/hook";
 
 interface LoginFormInputs {
   email: string;
@@ -14,8 +16,11 @@ export function SignUpForm() {
     formState: { errors },
   } = useForm<LoginFormInputs>();
 
+  const dispatch = useAppDispatch();
+
   const onSubmit = (data: LoginFormInputs) => {
     console.log(data);
+    dispatch(createUser({ email: data.email, password: data.password }));
   };
 
   return (
