@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { IBooks } from "../types/globalTypes";
 import { useAddBookMutation } from "../redux/features/books/bookapi";
 import { toast } from "react-toastify";
+import { useEffect } from "react"; 
 export function BookForm() {
   const {
     register,
@@ -25,14 +26,16 @@ export function BookForm() {
       publication_date: data.publication_date,
     };
     addBook(bookData);
+  };
+  useEffect(() => {
     if (isError) {
-      const notify = toast.error("something went wrong....");
+      toast.error("Something went wrong....");
     }
-    if (!isError && !isLoading && isSuccess) {
-      const notify = toast.success("You Have successfully added a new book");
+    if (isSuccess) {
+      toast.success("You have successfully added a new book");
       reset();
     }
-  };
+  }, [isError, isSuccess, reset]);
 
   return (
     <div className="flex items-center justify-center">

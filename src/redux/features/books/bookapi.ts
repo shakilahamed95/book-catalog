@@ -4,6 +4,7 @@ const productApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getBooks: builder.query({
       query: () => "/books",
+      providesTags: ['books'],
     }),
     SingleBook: builder.query({
       query: (id) => `/book/${id}`,
@@ -14,8 +15,22 @@ const productApi = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ['books'],
+    }),
+    postComment: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/comment/${id}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ['comments'],
+    }),
+    getComment: builder.query({
+      query: (id) => `/comment/${id}`,
+      providesTags: ['comments'],
     }),
   }),
 });
 
-export const { useGetBooksQuery, useSingleBookQuery,useAddBookMutation } = productApi;
+export const { useGetBooksQuery, useSingleBookQuery, useAddBookMutation,useGetCommentQuery,usePostCommentMutation } =
+  productApi;
