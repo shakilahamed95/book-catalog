@@ -1,11 +1,10 @@
+import { Link } from "react-router-dom";
 import BookCard from "../components/BookCard";
 import { useGetBooksQuery } from "../redux/features/books/bookapi";
 import { IBooks } from "../types/globalTypes";
 
 export default function Home() {
   const { data, isLoading } = useGetBooksQuery(undefined);
-  console.log(data?.data);
-  console.log(isLoading);
   return (
     <div>
       <h3 className="text-center text-3xl text-blue-800 font-semibold mb-8">
@@ -23,6 +22,14 @@ export default function Home() {
             data?.data
               ?.slice(0, 10)
               .map((book: IBooks) => <BookCard book={book} />)}
+        </div>
+        <div className="flex items-center justify-center mt-10">
+          <Link
+            to="/all-books"
+            className="px-5 py-2 bg-sky-600 rounded text-white"
+          >
+            View all Books
+          </Link>
         </div>
       </div>
     </div>
