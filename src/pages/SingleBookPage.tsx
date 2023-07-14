@@ -1,13 +1,46 @@
-import { useParams } from "react-router-dom";
-import { useSingleBookQuery } from "../redux/features/books/bookapi";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  useDeleBookMutation,
+  useSingleBookQuery,
+} from "../redux/features/books/bookapi";
 import BookReview from "../components/ProductReview";
 import { useAppSelector } from "../redux/hook";
+import { useEffect } from "react";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 export default function SingleBookPage() {
   const { id } = useParams();
   const { user } = useAppSelector((state) => state.user);
-  console.log("user", user);
   const { data: book, isLoading } = useSingleBookQuery(id);
+  const [deleteBook, { isError, isSuccess }] = useDeleBookMutation();
+  const navigate = useNavigate();
+  const handleDelete = () => {
+    Swal.fire({
+      icon: "error",
+      title: "Delete",
+      text: "Are You sure want to delete this book?",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const options = {
+          id: id,
+          data: book,
+        };
+        deleteBook(options);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (isError) {
+      toast.error("Something went wrong....");
+    }
+    if (isSuccess) {
+      toast.success(`You have successfully Delete ${book.title}`);
+      navigate("/all-books");
+    }
+  }, [isError, isSuccess, navigate]);
+
   return (
     <>
       {!book && isLoading && (
@@ -35,6 +68,19 @@ export default function SingleBookPage() {
                 <span className="font-bold">Publish</span>:{" "}
                 {book?.publication_date}
               </p>
+              {user.email && (
+                <div className="flex gap-5 mt-4">
+                  <button className="px-5 py-2 bg-sky-600 rounded text-white">
+                    Edit
+                  </button>
+                  <button
+                    onClick={handleDelete}
+                    className="px-5 py-2 bg-sky-600 rounded text-white"
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
             </div>
           </div>
           {user.email && (
