@@ -12,10 +12,17 @@ export default function Home() {
         Most Popular Books
       </h3>
       <div className="container mx-auto">
+        {!data?.data && isLoading && (
+          <h6 className="h-80 w-full mt-36 text-xl text-center">
+            Loading... Please wait
+          </h6>
+        )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 gap-y-10">
-          {data?.data?.slice(0, 10).map((book: IBooks) => (
-            <BookCard book={book}/>
-          ))}
+          {!isLoading &&
+            data?.data &&
+            data?.data
+              ?.slice(0, 10)
+              .map((book: IBooks) => <BookCard book={book} />)}
         </div>
       </div>
     </div>
