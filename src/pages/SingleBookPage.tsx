@@ -86,11 +86,9 @@ export default function SingleBookPage() {
               )}
             </div>
           </div>
-          {user.email && (
-            <div className="border-t border-black">
-              <BookReview id={id!} />
-            </div>
-          )}
+          <div className="border-t border-black">
+            <BookReview id={id!} />
+          </div>
         </div>
       )}
     </>

@@ -4,13 +4,17 @@ import { useForm } from "react-hook-form";
 import { IBooks } from "../types/globalTypes";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { useUpdateBookMutation } from "../redux/features/books/bookapi";
 
 interface IProps {
   book: IBooks;
 }
 
 export function EditForm({ book }: IProps) {
-  const { register, handleSubmit, reset } = useForm<IBooks>();
+  const { register, handleSubmit } = useForm<IBooks>();
+  const [updateBook, { isLoading, isError, isSuccess }] =
+    useUpdateBookMutation();
+  console.log(isLoading);
 
   const onSubmit = (data: IBooks) => {
     const bookData = {
@@ -22,17 +26,20 @@ export function EditForm({ book }: IProps) {
         ? data.publication_date
         : book.publication_date,
     };
-    console.log(bookData);
+    const options = {
+      id: book?._id,
+      data: bookData,
+    };
+    updateBook(options);
   };
-  //   useEffect(() => {
-  //     if (isError) {
-  //       toast.error("Something went wrong....");
-  //     }
-  //     if (isSuccess) {
-  //       toast.success("You have successfully added a new book");
-  //       reset();
-  //     }
-  //   }, [isError, isSuccess, reset]);
+  useEffect(() => {
+    if (isError) {
+      toast.error("Something went wrong....");
+    }
+    if (isSuccess) {
+      toast.success("Book Info updated successfully");
+    }
+  }, [isError, isSuccess]);
 
   return (
     <div className="flex items-center justify-center">
@@ -100,7 +107,7 @@ export function EditForm({ book }: IProps) {
             type="submit"
             className="mt-4 px-5 py-2 bg-sky-600 rounded text-white"
           >
-            Enter Your Book
+            Update Book Info
           </button>
         </div>
       </form>

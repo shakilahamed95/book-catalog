@@ -7,8 +7,10 @@ export default function EditBook() {
   const { data: book } = useSingleBookQuery(id);
   return (
     <div>
-      <h4 className="text-2xl text-center">Edit This Book.</h4>
-      <EditForm book={book} />
+      <h4 className="text-2xl text-center mb-6">Update This Book.</h4>
+      <div className="mb-6">
+        <EditForm book={book} />
+      </div>
     </div>
   );
 }
