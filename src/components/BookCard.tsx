@@ -8,7 +8,7 @@ interface IProps {
 export default function BookCard({book}:IProps) {
   return (
     <div className="bg-slate-100 rounded w-fit">
-      <Link to="/">
+      <Link to={`/book-details/${book._id}`}>
         <img
           src={book.image}
           alt="book image"
@@ -17,7 +17,7 @@ export default function BookCard({book}:IProps) {
       </Link>
       <div className="p-3 text-black">
         <h6 className="text-lg font-semibold">
-          <Link to="/">{book.title}</Link>
+          <Link to={`/book-details/${book._id}`}>{book.title}</Link>
         </h6>
         <p className="mt-2 text-base">Author: {book.author}</p>
         <p className="mt-2 text-base">
