@@ -2,38 +2,37 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { IBooks } from "../types/globalTypes";
-import { useAddBookMutation } from "../redux/features/books/bookapi";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-export function BookForm() {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<IBooks>();
 
-  const [addBook, { isSuccess, isError }] = useAddBookMutation();
+interface IProps {
+  book: IBooks;
+}
+
+export function EditForm({ book }: IProps) {
+  const { register, handleSubmit, reset } = useForm<IBooks>();
 
   const onSubmit = (data: IBooks) => {
     const bookData = {
-      image: data.image,
-      title: data.title,
-      author: data.author,
-      genre: data.genre,
-      publication_date: data.publication_date,
+      image: data?.image ? data.image : book.image,
+      title: data?.title ? data.title : book.title,
+      author: data.author ? data.author : book.author,
+      genre: data.genre ? data.genre : book.genre,
+      publication_date: data.publication_date
+        ? data.publication_date
+        : book.publication_date,
     };
-    addBook(bookData);
+    console.log(bookData);
   };
-  useEffect(() => {
-    if (isError) {
-      toast.error("Something went wrong....");
-    }
-    if (isSuccess) {
-      toast.success("You have successfully added a new book");
-      reset();
-    }
-  }, [isError, isSuccess, reset]);
+  //   useEffect(() => {
+  //     if (isError) {
+  //       toast.error("Something went wrong....");
+  //     }
+  //     if (isSuccess) {
+  //       toast.success("You have successfully added a new book");
+  //       reset();
+  //     }
+  //   }, [isError, isSuccess, reset]);
 
   return (
     <div className="flex items-center justify-center">
@@ -48,12 +47,10 @@ export function BookForm() {
               id="image"
               placeholder="image Url here"
               type="text"
+              defaultValue={book?.image}
               className="w-72 px-3 py-2 border border-black focus:outline-none"
-              {...register("image", { required: "Image is required" })}
+              {...register("image")}
             />
-            {errors.image && (
-              <p className="text-red-600">{errors.image.message}</p>
-            )}
           </div>
           <div>
             <p className="text-base text-black mb-1">Enter book title</p>
@@ -61,12 +58,10 @@ export function BookForm() {
               id="title"
               placeholder="Book Title here"
               type="text"
+              defaultValue={book?.title}
               className="w-72 px-3 py-2 border border-black focus:outline-none"
-              {...register("title", { required: "Title is required" })}
+              {...register("title")}
             />
-            {errors.title && (
-              <p className="text-red-600">{errors.title.message}</p>
-            )}
           </div>
           <div>
             <p className="text-base text-black mb-1">Enter Book Author</p>
@@ -74,12 +69,10 @@ export function BookForm() {
               id="author"
               placeholder="Author name here"
               type="text"
+              defaultValue={book?.author}
               className="w-72 px-3 py-2 border border-black focus:outline-none"
-              {...register("author", { required: "Author is required" })}
+              {...register("author")}
             />
-            {errors.author && (
-              <p className="text-red-600">{errors.author.message}</p>
-            )}
           </div>
           <div>
             <p className="text-base text-black mb-1">Enter genre name</p>
@@ -87,29 +80,26 @@ export function BookForm() {
               id="genre"
               placeholder="Genre name here"
               type="text"
+              defaultValue={book?.genre}
               className="w-72 px-3 py-2 border border-black focus:outline-none"
-              {...register("genre", { required: "Genre is required" })}
+              {...register("genre")}
             />
-            {errors.genre && (
-              <p className="text-red-600">{errors.genre.message}</p>
-            )}
           </div>
           <div>
             <p className="text-base text-black mb-1">Add Publication Date</p>
             <input
               id="publication_date"
-              placeholder="name@example.com"
+              placeholder="Publication date here"
               type="text"
+              defaultValue={book?.publication_date}
               className="w-72 px-3 py-2 border border-black focus:outline-none"
-              {...register("publication_date", {
-                required: "Publication date is required",
-              })}
+              {...register("publication_date")}
             />
-            {errors.publication_date && (
-              <p className="text-red-600">{errors.publication_date.message}</p>
-            )}
           </div>
-          <button className="mt-4 px-5 py-2 bg-sky-600 rounded text-white">
+          <button
+            type="submit"
+            className="mt-4 px-5 py-2 bg-sky-600 rounded text-white"
+          >
             Enter Your Book
           </button>
         </div>

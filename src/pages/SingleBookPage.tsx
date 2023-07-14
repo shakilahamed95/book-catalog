@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   useDeleBookMutation,
   useSingleBookQuery,
@@ -36,7 +36,7 @@ export default function SingleBookPage() {
       toast.error("Something went wrong....");
     }
     if (isSuccess) {
-      toast.success(`You have successfully Delete ${book.title}`);
+      toast.success(`You have successfully Delete the book`);
       navigate("/all-books");
     }
   }, [isError, isSuccess, navigate]);
@@ -70,9 +70,12 @@ export default function SingleBookPage() {
               </p>
               {user.email && (
                 <div className="flex gap-5 mt-4">
-                  <button className="px-5 py-2 bg-sky-600 rounded text-white">
+                  <Link
+                    to={`/edit-book/${book._id}`}
+                    className="px-5 py-2 bg-sky-600 rounded text-white"
+                  >
                     Edit
-                  </button>
+                  </Link>
                   <button
                     onClick={handleDelete}
                     className="px-5 py-2 bg-sky-600 rounded text-white"
