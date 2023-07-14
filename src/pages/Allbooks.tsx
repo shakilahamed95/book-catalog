@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import BookCard from "../components/BookCard";
 import { useGetBooksQuery } from "../redux/features/books/bookapi";
 import { IBooks } from "../types/globalTypes";
@@ -19,6 +20,15 @@ export default function Allbooks() {
           {!isLoading &&
             data?.data &&
             data?.data.map((book: IBooks) => <BookCard book={book} />)}
+        </div>
+
+        <div className="flex items-center justify-center mt-10">
+          <Link
+            to="/add-new-book"
+            className="px-5 py-2 bg-sky-600 rounded text-white"
+          >
+            Add new book
+          </Link>
         </div>
       </div>
     </div>
