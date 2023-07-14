@@ -12,8 +12,10 @@ export function BookForm() {
     formState: { errors },
   } = useForm<IBooks>();
 
-  const [addBook, { isLoading }] = useAddBookMutation();
-  console.log(isLoading);
+  const [addBook, { isLoading, isSuccess, isError }] = useAddBookMutation();
+  console.log("isLoading", isLoading);
+  console.log("isSuccess", isSuccess);
+  console.log("isError", isError);
   const onSubmit = (data: IBooks) => {
     const bookData = {
       image: data.image,
@@ -23,8 +25,13 @@ export function BookForm() {
       publication_date: data.publication_date,
     };
     addBook(bookData);
-    const notify = toast.success("You Have successfully added a new book");
-    reset();
+    if (isError) {
+      const notify = toast.error("something went wrong....");
+    }
+    if (!isError && !isLoading && isSuccess) {
+      const notify = toast.success("You Have successfully added a new book");
+      reset();
+    }
   };
 
   return (
