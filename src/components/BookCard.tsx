@@ -1,22 +1,27 @@
 import { Link } from "react-router-dom";
+import { IBooks } from "../types/globalTypes";
 
-export default function BookCard() {
+interface IProps {
+    book: IBooks;
+  }
+
+export default function BookCard({book}:IProps) {
   return (
     <div className="bg-slate-100 rounded w-fit">
       <Link to="/">
         <img
-          src="https://source.unsplash.com/random/300x300/?2"
+          src={book.image}
           alt="book image"
           className="object-cover object-center w-[324px] rounded-t-md h-72"
         />
       </Link>
       <div className="p-3 text-black">
         <h6 className="text-lg font-semibold">
-          <Link to="/">How to make web templates</Link>
+          <Link to="/">{book.title}</Link>
         </h6>
-        <p className="mt-2 text-base">Author:Black</p>
+        <p className="mt-2 text-base">Author: {book.author}</p>
         <p className="mt-2 text-base">
-          Publication Date:Black
+          Publish: {book.publication_date}
         </p>
       </div>
     </div>
