@@ -5,9 +5,8 @@ import { useAppSelector } from "../redux/hook";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import {
-  usePostWishlistMutation,
-  useSingleUserQuery,
 } from "../redux/features/books/bookapi";
+import { usePostWishlistMutation, useSingleUserQuery } from "../redux/api/list/listApi";
 
 interface LoginFormInputs {
   title: string;

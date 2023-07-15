@@ -5,10 +5,8 @@ import { useAppSelector } from "../redux/hook";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import {
-  usePostMyListMutation,
-  useSingleUserQuery,
-  useUpdateMyListMutation,
 } from "../redux/features/books/bookapi";
+import { usePostMyListMutation, useSingleUserQuery, useUpdateMyListMutation } from "../redux/api/list/listApi";
 
 interface LoginFormInputs {
   _id: string;
@@ -122,8 +120,8 @@ export function MyListForm() {
               className="mt-2 flex items-center gap-8 justify-start"
             >
               <p className="text-lg w-32">{book.title}</p>
-              <p className="text-lg w-20">{book.status}</p>
-              {book.status !== "completed" && (
+              <p className="text-lg w-44">{book.status}</p>
+              {book.status !== "finished reading" && (
                 <button
                   onClick={() => handleListUpdate(book._id)}
                   className="px-2 py-1 bg-sky-600 rounded text-white"

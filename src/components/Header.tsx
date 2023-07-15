@@ -39,9 +39,17 @@ export default function Header() {
                 </div>
               )}
               {user.email && (
-                <li onClick={handleLogout} className="text-white p-2 cursor-pointer">
-                  LogOut
-                </li>
+                <div className="flex items-center gap-5">
+                  <li
+                    onClick={handleLogout}
+                    className="text-white p-2 cursor-pointer"
+                  >
+                    LogOut
+                  </li>
+                  <li className="text-white">
+                    <Link to="/wishlist">Wishlist</Link>
+                  </li>
+                </div>
               )}
             </ul>
           </div>
