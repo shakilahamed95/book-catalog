@@ -46,7 +46,7 @@ const productApi = api.injectEndpoints({
       query: (id) => `/comment/${id}`,
       providesTags: ["comments"],
     }),
-    // save user 
+    // save user
 
     SaveUser: builder.mutation({
       query: (data) => ({
@@ -58,7 +58,15 @@ const productApi = api.injectEndpoints({
 
     SingleUser: builder.query({
       query: (email) => `/user/${email}`,
-      providesTags: ["books"],
+      providesTags: ["wishlist"],
+    }),
+    postWishlist: builder.mutation({
+      query: (data) => ({
+        url: `/wishlist`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["wishlist"],
     }),
   }),
 });
@@ -72,5 +80,6 @@ export const {
   useDeleBookMutation,
   useUpdateBookMutation,
   useSaveUserMutation,
-  useSingleUserQuery
+  useSingleUserQuery,
+  usePostWishlistMutation,
 } = productApi;

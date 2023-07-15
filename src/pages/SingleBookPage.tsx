@@ -3,7 +3,7 @@ import {
   useDeleBookMutation,
   useSingleBookQuery,
 } from "../redux/features/books/bookapi";
-import BookReview from "../components/ProductReview";
+import BookReview from "../components/BookReview";
 import { useAppSelector } from "../redux/hook";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
