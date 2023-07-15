@@ -29,13 +29,6 @@ export function WishListForm() {
       bookTitle: data.title,
     };
     postWishlist(wishListData);
-    if (isSuccess) {
-      toast.success("Book Title added to wishlist");
-      reset();
-    }
-    if (isError) {
-      toast.error("Something Went wrong");
-    }
   };
   useEffect(() => {
     if (isSuccess) {
@@ -74,14 +67,17 @@ export function WishListForm() {
         </div>
       </form>
 
-      <div className="mt-8">
-        <h5 className="text-2xl">Your WishListed Book:</h5>
-        {data?.data?.wishlist?.map((book: string, index: number) => (
-          <div key={index} className="mt-2">
-            <p className="text-lg">{book}</p>
-          </div>
-        ))}
-      </div>
+      {data?.data?.wishlist && (
+        <div className="mt-8">
+          <h5 className="text-2xl">Your WishListed Book:</h5>
+          <p className="text-xl mt-2">Title</p>
+          {data?.data?.wishlist?.map((book: string, index: number) => (
+            <div key={index} className="mt-2">
+              <p className="text-lg">{book}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

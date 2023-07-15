@@ -58,7 +58,7 @@ const productApi = api.injectEndpoints({
 
     SingleUser: builder.query({
       query: (email) => `/user/${email}`,
-      providesTags: ["wishlist"],
+      providesTags: ["wishlist", "myList"],
     }),
     postWishlist: builder.mutation({
       query: (data) => ({
@@ -67,6 +67,21 @@ const productApi = api.injectEndpoints({
         body: data,
       }),
       invalidatesTags: ["wishlist"],
+    }),
+    postMyList: builder.mutation({
+      query: (data) => ({
+        url: `/myList`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["myList"],
+    }),
+    updateMyList: builder.mutation({
+      query: ({ email, id }) => ({
+        url: `/myList/${email}/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["myList"],
     }),
   }),
 });
@@ -82,4 +97,8 @@ export const {
   useSaveUserMutation,
   useSingleUserQuery,
   usePostWishlistMutation,
+  usePostMyListMutation,
+  useUpdateMyListMutation,
 } = productApi;
+
+// /myList/:email/:bookId
