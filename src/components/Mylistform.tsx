@@ -4,9 +4,12 @@ import { useForm } from "react-hook-form";
 import { useAppSelector } from "../redux/hook";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import {} from "../redux/features/books/bookapi";
 import {
-} from "../redux/features/books/bookapi";
-import { usePostMyListMutation, useSingleUserQuery, useUpdateMyListMutation } from "../redux/api/list/listApi";
+  usePostMyListMutation,
+  useSingleUserQuery,
+  useUpdateMyListMutation,
+} from "../redux/api/list/listApi";
 
 interface LoginFormInputs {
   _id: string;
@@ -56,7 +59,7 @@ export function MyListForm() {
 
   useEffect(() => {
     if (updateSuccess) {
-      toast.success("Book status updated to completed");
+      toast.success("Book status updated to finished reading");
     }
     if (updateError) {
       toast.error("Something Went wrong");

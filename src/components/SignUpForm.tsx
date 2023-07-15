@@ -19,7 +19,7 @@ export function SignUpForm() {
     formState: { errors },
   } = useForm<LoginFormInputs>();
   const { user } = useAppSelector((state) => state.user);
-  const [saveUser, { isLoading }] = useSaveUserMutation();
+  const [saveUser] = useSaveUserMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
