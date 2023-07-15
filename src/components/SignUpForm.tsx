@@ -2,8 +2,11 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { createUser } from "../redux/features/user/userSlice";
-import { useAppDispatch } from "../redux/hook";
-
+import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { useSaveUserMutation } from "../redux/features/books/bookapi";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 interface LoginFormInputs {
   email: string;
   password: string;
@@ -15,13 +18,22 @@ export function SignUpForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>();
-
+  const { user } = useAppSelector((state) => state.user);
+  const [saveUser, { isLoading }] = useSaveUserMutation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const onSubmit = (data: LoginFormInputs) => {
-    console.log(data);
     dispatch(createUser({ email: data.email, password: data.password }));
+    saveUser({ email: data.email, password: data.password });
   };
+  useEffect(() => {
+    if (user.email) {
+      toast.success("User Account created successfully");
+      navigate("/");
+      
+    }
+  }, [user.email, navigate]);
 
   return (
     <div className="flex items-center justify-center">

@@ -15,7 +15,6 @@ export default function BookReview({ id }: IProps) {
     refetchOnMountOrArgChange: true,
     pollingInterval: 30000,
   });
-  console.log(data);
   const { user } = useAppSelector((state) => state.user);
   const [postComment, { isLoading }] = usePostCommentMutation();
   console.log(isLoading);

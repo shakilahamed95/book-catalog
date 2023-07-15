@@ -46,6 +46,20 @@ const productApi = api.injectEndpoints({
       query: (id) => `/comment/${id}`,
       providesTags: ["comments"],
     }),
+    // save user 
+
+    SaveUser: builder.mutation({
+      query: (data) => ({
+        url: "/user",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    SingleUser: builder.query({
+      query: (email) => `/user/${email}`,
+      providesTags: ["books"],
+    }),
   }),
 });
 
@@ -57,4 +71,6 @@ export const {
   usePostCommentMutation,
   useDeleBookMutation,
   useUpdateBookMutation,
+  useSaveUserMutation,
+  useSingleUserQuery
 } = productApi;

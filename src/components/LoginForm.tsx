@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { loginUser } from "../redux/features/user/userSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 interface LoginFormInputs {
   email: string;
   password: string;
@@ -16,7 +17,7 @@ export function LoginForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>();
-  const { user} = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const onSubmit = (data: LoginFormInputs) => {
@@ -24,6 +25,7 @@ export function LoginForm() {
   };
   useEffect(() => {
     if (user.email) {
+      toast.success("User login successfully");
       navigate("/");
     }
   }, [user.email, navigate]);
