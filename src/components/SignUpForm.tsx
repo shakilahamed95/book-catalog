@@ -3,13 +3,14 @@
 import { useForm } from "react-hook-form";
 import { createUser } from "../redux/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSaveUserMutation } from "../redux/api/list/listApi";
 interface LoginFormInputs {
   email: string;
   password: string;
+  cPassword: string;
 }
 
 export function SignUpForm() {
@@ -18,20 +19,25 @@ export function SignUpForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>();
+  const [passError, setPassError] = useState(false);
   const { user } = useAppSelector((state) => state.user);
   const [saveUser] = useSaveUserMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const onSubmit = (data: LoginFormInputs) => {
-    dispatch(createUser({ email: data.email, password: data.password }));
-    saveUser({ email: data.email, password: data.password });
+    if (data.password !== data.cPassword) {
+      setPassError(true);
+    } else {
+      setPassError(false);
+      dispatch(createUser({ email: data.email, password: data.password }));
+      saveUser({ email: data.email, password: data.password });
+    }
   };
   useEffect(() => {
     if (user.email) {
       toast.success("User Account created successfully");
       navigate("/");
-      
     }
   }, [user.email, navigate]);
 
@@ -72,11 +78,20 @@ export function SignUpForm() {
           <div>
             <p className="text-base text-black mb-1">Confirm Password</p>
             <input
-              id="password"
+              id="cPassword"
               placeholder="your password"
               type="password"
               className="w-72 px-3 py-2 border border-black focus:outline-none"
+              {...register("cPassword", {
+                required: "Confirm Password is required",
+              })}
             />
+            {errors.cPassword && (
+              <p className="text-red-600">{errors.cPassword.message}</p>
+            )}
+            {passError && (
+              <p className="text-red-600">Confirm Password does not match</p>
+            )}
           </div>
           <button className="mt-4 px-5 py-2 bg-sky-600 rounded text-white">
             Sign Up

@@ -40,14 +40,17 @@ export default function Header() {
               )}
               {user.email && (
                 <div className="flex items-center gap-5">
+                  <li className="text-white">
+                    <Link to="/add-new-book">Add Book</Link>
+                  </li>
+                  <li className="text-white">
+                    <Link to="/wishlist">Wishlist</Link>
+                  </li>
                   <li
                     onClick={handleLogout}
                     className="text-white p-2 cursor-pointer"
                   >
                     LogOut
-                  </li>
-                  <li className="text-white">
-                    <Link to="/wishlist">Wishlist</Link>
                   </li>
                 </div>
               )}
